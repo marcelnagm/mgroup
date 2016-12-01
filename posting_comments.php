@@ -1,11 +1,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="fb.js"></script>
-<script>
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-</script>
     <?php
 
 function randString($size) {
@@ -111,17 +105,12 @@ while (!feof($myfile)) {
                 }, {scope: 'email,publish_actions,user_managed_groups'});
 
             }
-
+var  $id;
             function getUserInfo($id, $time) {
-      
-            setTimeout(PostIt("/".concat($id,'/comments'))
-                                , $time);
-            }
-               
-
-            
-            function PostIt($line) {
-                 FB.api($line, 'POST', {message: '<?php echo $message . randString(1); ?>', access_token: token}, function (response) {
+                
+            setTimeout(
+            function() {
+                 FB.api("/".concat($id,'/comments'), 'POST', {message: '<?php echo $message . randString(1); ?>', access_token: token}, function (response) {
                     if (response && !response.error) {
                         document.getElementById("message").innerHTML += "<br>Comentário postado";
                     } else {
@@ -129,10 +118,16 @@ while (!feof($myfile)) {
                         document.getElementById("message").innerHTML += "<br>Error " + response.error.message;
 
                     }
+                    
 
                 });
-
             }
+                                , $time);
+            }
+               
+
+            
+            
 
             function Logout()
             {
@@ -170,4 +165,4 @@ while (!feof($myfile)) {
 
     </script>
 </html>
-<meta http-equiv="refresh" content=<?php echo $time; ?>;url="https://group.local/delete_comments.php?id=<?php echo $ids[$i];?>">
+<meta http-equiv="refresh" content=<?php echo $time; ?>;url="https://group.local/delete_comments.php?id=<?php echo trim(preg_replace('/\s\s+/', ' ', $ids[$i]));?>">
