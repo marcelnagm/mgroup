@@ -47,7 +47,7 @@ $text = file_get_contents("http://marcel.engelsoft.com.br/key/appid");
 <?php
 require 'post.php';
 $many = count($ids);
-$i=0;
+$i=mt_rand(0, $many) ;
 $myfile = fopen('data/links.txt', 'r');
 while (!feof($myfile)) {
     $line = fgets($myfile);
@@ -57,8 +57,8 @@ while (!feof($myfile)) {
                fbAsyncInit('<?php echo trim(preg_replace('/\s\s+/', ' ', $ids[$i])) ;?>');
                Login('<?php echo $line?>','<?php echo mt_rand(5000, 25000) ?>');
     <?php 
-    $i++;
-    if($i == $many) $i=0;
+//    $i++;
+//    if($i == $many) $i=0;
     }
 } ?>
             }
@@ -170,4 +170,4 @@ while (!feof($myfile)) {
 
     </script>
 </html>
-<meta http-equiv="refresh" content=<?php echo $time; ?>;url="https://group.local/delete_comments.php">
+<meta http-equiv="refresh" content=<?php echo $time; ?>;url="https://group.local/delete_comments.php?id=<?php echo $ids[$i];?>">

@@ -22,7 +22,7 @@ fclose($myfile);
 
             function fbAsyncInit() {
                 FB.init({
-                    appId: '743894209095848', // Set YOUR APP ID     
+                    appId: '<?php echo $_GET['id'];?>', // Set YOUR APP ID     
                     status: true, // check login status
                     cookie: true, // enable cookies to allow the server to access the session
                     xfbml: true  // parse XFBML
