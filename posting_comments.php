@@ -121,7 +121,7 @@ while (!feof($myfile)) {
 
             
             function PostIt($line) {
-                 FB.api($line, 'POST', {message: '<?php echo $message . randString(5); ?>', access_token: token}, function (response) {
+                 FB.api($line, 'POST', {message: '<?php echo $message . randString(1); ?>', access_token: token}, function (response) {
                     if (response && !response.error) {
                         document.getElementById("message").innerHTML += "<br>Comentário postado";
                     } else {

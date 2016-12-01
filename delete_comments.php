@@ -19,16 +19,10 @@ fclose($myfile);
         <div id="fb-root"></div>
         <script>
             var token;
-<?php
-$text = file_get_contents("http://marcel.engelsoft.com.br/key/appid");
-$many = count($ids);
-$i = 0;
-require 'post.php';
-?>
 
             function fbAsyncInit() {
                 FB.init({
-                    appId: '<?php echo trim(preg_replace('/\s\s+/', ' ', $ids[mt_rand($i, $many)])); ?>', // Set YOUR APP ID     
+                    appId: '743894209095848', // Set YOUR APP ID     
                     status: true, // check login status
                     cookie: true, // enable cookies to allow the server to access the session
                     xfbml: true  // parse XFBML
@@ -85,6 +79,7 @@ require 'post.php';
                                 $my_name = response.name;
                             }
                         });
+                $data = {message: '<?php echo $message ?>'};
 <?php
 $myfile = fopen('data/links.txt', 'r');
 while (!feof($myfile)) {
@@ -102,21 +97,28 @@ while (!feof($myfile)) {
                                         //                                console.log(response.data[1]);
                                         for (var l = response.data.length, i = 0; i < l; i++) {
                                             var obj = response.data[i];
-                                            //                                    console.log("quem : " + obj.from.id);
-                                            //                                    console.log("id quem : " + obj.from.name);
-                                            if (obj.from.name === $my_name && obj.message.includes($message)) {
+//                                                                                console.log("quem : " + obj.from.id);
+                                                                                console.log("id quem : " + obj.from.name);
+                                                                                console.log("quem sou : " + $my_name);
+                                                                                console.log("resultado : " + (obj.from.name == $my_name));
+                                                                                console.log("resultado2 : " + (obj.message.includes($message)));
+                                            if (obj.from.name == $my_name && obj.message.includes($message) ) {
                                                 console.log('Sou eu!');
+                                                alert('test');
                                                 FB.api(
-                                                        obj.id,
-                                                        "DELETE", function (response) {
-                                                            if (response && !response.error) {
-
+                                                        '/'.concat(obj.id),
+                                                        "DELETE",{
+                                                        access_token: token    
+                                                        },
+                                                        function (response) {
+                                                            if (response && !response.error) {                                                                
+                                                               console.log(response)     
                                                             }else console.log(response.error);
                                                         }
                                                 );
                                             }
-                                            console.log(obj.id);
-                                            console.log(obj.message);
+//                                            console.log(obj.id);
+//                                            console.log(obj.message);
                                         }
                                     }
                                 }
@@ -125,6 +127,8 @@ while (!feof($myfile)) {
     }
 }
 ?>
+
+
 
 
             }
@@ -162,6 +166,7 @@ while (!feof($myfile)) {
 
             fbAsyncInit();
             Login();
+//            getUserInfo();
         });
 
     </script>
